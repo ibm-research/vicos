@@ -1,0 +1,54 @@
+apply plugin: 'application'
+
+mainClassName = "org.springframework.shell.Bootstrap"
+
+defaultTasks 'installApp'
+
+repositories {
+    maven { url 'http://repo.springsource.org/libs-release' }
+}
+
+dependencies {
+    compile project(':vicos-core')
+    compile('org.springframework.shell:spring-shell:1.1.0.RELEASE') {
+        exclude group: 'commons-logging'
+    }
+    compile('org.slf4j:jcl-over-slf4j:1.7.14')
+}
+
+run {
+    standardInput = System.in
+}
+
+applicationDefaultJvmArgs = ["-Dlogback.configurationFile=MY_APP_HOME/conf/logback.xml",
+                             "-Dconfig.file=MY_APP_HOME/conf/server.conf",
+                             "-server",
+                             "-Xms2g",
+                             "-Xmx4g",
+                             "-XX:MaxMetaspaceSize=4g",
+//                             "-Xmn<young size>[g|m|k]",
+//                             "-XX:SurvivorRatio=<ratio>",
+                             "-XX:+UseConcMarkSweepGC",
+                             "-XX:+CMSParallelRemarkEnabled",
+                             "-XX:+UseCMSInitiatingOccupancyOnly",
+                             "-XX:CMSInitiatingOccupancyFraction=70",
+                             "-XX:+ScavengeBeforeFullGC",
+                             "-XX:+CMSScavengeBeforeRemark",
+                             "-XX:+PrintGCDateStamps",
+                             "-verbose:gc",
+                             "-XX:+PrintGCDetails",
+                             "-Xloggc:/tmp/vicos-server",
+                             "-XX:+UseGCLogFileRotation",
+                             "-XX:NumberOfGCLogFiles=10",
+                             "-XX:GCLogFileSize=100M",
+                             "-Dsun.net.inetaddr.ttl=60",
+                             "-XX:+HeapDumpOnOutOfMemoryError",
+//                             "-XX:HeapDumpPath=/tmp/vicos-server/`date`.hprof",
+]
+
+startScripts {
+    doLast {
+        unixScript.text = unixScript.text.replace('MY_APP_HOME', '\$APP_HOME')
+        windowsScript.text = windowsScript.text.replace('MY_APP_HOME', '%~dp0..')
+    }
+}

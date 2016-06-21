@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+
+    <timestamp key="bySecond" datePattern="yyyy-MM-dd_HHmmss"/>
+
+    <property name="defaultPattern"
+              value="[%-5level] [%d{HH:mm:ss.SSS}] %32.32(%logger{0}:%M) %X{akkaSource} - %msg%n" />
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <withJansi>false</withJansi>
+        <encoder>
+            <pattern>${defaultPattern}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/vicos-${bySecond}.log</file>
+        <append>false</append>
+        <encoder>
+            <pattern>${defaultPattern}</pattern>
+        </encoder>
+    </appender>
+
+    <root>
+        <level value="INFO"/>
+        <appender-ref ref="FILE" />
+        <appender-ref ref="CONSOLE" />
+    </root>
+
+    <logger name="com.ibm.vicos" level="DEBUG"/>
+    <logger name="org.springframework" level="WARN"/>
+
+</configuration>

@@ -1,0 +1,41 @@
+buildscript {
+    repositories {
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    dependencies {
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.7.7',
+                  'gradle.plugin.com.ewerk.gradle.plugins:auto-value-plugin:1.0.6'
+    }
+}
+
+apply plugin: 'com.google.protobuf'
+apply plugin: "com.ewerk.gradle.plugins.auto-value"
+
+sourceSets {
+    main {
+        proto {
+            srcDir 'src/main/protobuf'
+        }
+    }
+    test {
+        proto {
+            srcDir 'src/test/protobuf'
+        }
+    }
+}
+
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.0.0-beta-2'
+    }
+    generatedFilesBaseDir = "$projectDir/src/"
+}
+
+dependencies {
+    compile 'com.typesafe.akka:akka-actor_2.11:2.4.4',
+            'com.typesafe.akka:akka-remote_2.11:2.4.4',
+            'com.typesafe.akka:akka-slf4j_2.11:2.4.4',
+            'com.google.protobuf:protobuf-java:3.0.0-beta-2'
+
+    testCompile 'com.typesafe.akka:akka-testkit_2.11:2.4.4'
+}

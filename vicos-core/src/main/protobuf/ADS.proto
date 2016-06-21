@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option java_package = "com.ibm.vicos.common";
+
+message Authenticator {
+    string value = 1;
+    uint64 sequenceNumber = 2;
+    string clientId = 3;
+    string signature = 4;
+}
+
+message AuxiliaryData {
+    map<string, string> data = 1;
+}

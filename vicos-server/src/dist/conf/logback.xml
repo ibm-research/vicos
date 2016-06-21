@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+
+    <timestamp key="bySecond" datePattern="yyyy-MM-dd_HHmmss"/>
+
+    <property name="defaultPattern"
+              value="[%-5level] [%d{HH:mm:ss.SSS}] %32.32(%logger{0}:%M) %X{akkaSource} - %msg%n"/>
+
+    <property name="MessageSizePattern"
+              value="%d{HH:mm:ss.SSS} %logger{0} %M %msg%n"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <withJansi>false</withJansi>
+        <encoder>
+            <pattern>${defaultPattern}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/vicos-${bySecond}.log</file>
+        <append>false</append>
+        <encoder>
+            <pattern>${defaultPattern}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="MSG-SIZE" class="ch.qos.logback.core.FileAppender">
+        <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator class="ch.qos.logback.classic.boolex.OnMarkerEvaluator">
+                <marker>MESSAGE_SIZE</marker>
+            </evaluator>
+            <OnMismatch>DENY</OnMismatch>
+            <OnMatch>ACCEPT</OnMatch>
+        </filter>
+        <file>logs/vicos-size-${bySecond}.log</file>
+        <append>false</append>
+        <encoder>
+            <pattern>${MessageSizePattern}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.ibm.vicos" level="INFO"/>
+    <logger name="akka.remote" level="INFO"/>
+    <logger name="org.springframework" level="WARN"/>
+
+    <logger name="com.ibm.vicos.server.ServerActor" level="TRACE" additivity="false">
+        <appender-ref ref="MSG-SIZE"/>
+    </logger>
+
+    <root level="INFO">
+        <!--<appender-ref ref="FILE"/>-->
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+</configuration>

@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+option java_package = "com.ibm.vicos.common";
+
+import "Operations.proto";
+import "ADS.proto";
+
+message Message {
+
+    enum Type {
+        INIT = 0;
+        INVOKE = 1;
+        REPLY = 2;
+        COMMIT = 3;
+        UPDATE_AUTH = 4;
+        COMMIT_AUTH = 5;
+    }
+
+    Type type = 1;
+    oneof oneof_operation {
+        Init init = 2;
+        Invoke invoke = 3;
+        Reply reply = 4;
+        Commit commit = 5;
+        UpdateAuth updateAuth = 6;
+        CommitAuth commitAuth = 7;
+    }
+    string source = 8;
+    string destination = 9;
+}
+
+message Init {
+    Operation operation = 1;
+    Authenticator authenticator = 2;
+}
+
+message Invoke {
+    Operation operation = 1;
+    uint64 lastSequenceNumber = 2;
+}
+
+message Reply {
+    uint64 assignedSequenceNumber = 1;
+    Result result = 2;
+    AuxiliaryData auxiliaryData = 3;
+    Authenticator lastAuthenticator = 4;
+    repeated Operation deltaOperations = 5;
+    repeated Operation pendingOperations = 6;
+}
+
+message Commit {
+    uint64 sequenceNumber = 1;
+    Status status = 2;
+    string signature = 3;
+}
+
+message UpdateAuth {
+    Result result = 1;
+    AuxiliaryData auxiliaryData = 2;
+    Authenticator lastAuthenticator = 3;
+    Operation operation = 4;
+    Operation lastOperation = 5;
+}
+
+message CommitAuth {
+    Authenticator authenticator = 1;
+    AuxiliaryData auxiliaryData = 2;
+}
+
+message CommitResult {
+    Commit commit = 1;
+    Result result = 2;
+}

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+
+    <timestamp key="bySecond" datePattern="yyyy-MM-dd_HHmmss"/>
+
+    <!--<property name="defaultPattern" value="[%thread] %32.32(%logger{0}:%M) - %msg%n" />-->
+    <property name="defaultPattern"
+              value="[%-5level] [%d{HH:mm:ss.SSS}] [%thread] %32.32(%logger{0}:%M) - %msg%n" />
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <withJansi>false</withJansi>
+        <encoder>
+            <pattern>${defaultPattern}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>build/logs/vicos-test-${bySecond}.log</file>
+        <append>false</append>
+        <encoder>
+            <pattern>${defaultPattern}</pattern>
+        </encoder>
+    </appender>
+
+
+    <!-- PLEASE DO NOT TOUCH THIS -->
+    <!-- Changing the root log level could end up in a huge logging mess.
+         We are using WARN as default root level, thus all loggers are assigned to that level and
+         we are getting a nice and clean logging outputs.
+         If you a specific log level for a particular logger please see below CUSTOM USER CONFIGURATION -->
+    <root>
+        <level value="WARN"/>
+        <appender-ref ref="CONSOLE" />
+    </root>
+
+    <logger name="com.ibm.vicos" level="TRACE"/>
+    <logger name="org.springframework" level="WARN"/>
+
+    <!-- CUSTOM USER CONFIGURATION -->
+    <!-- For a customized logging output you just add a new line here.
+         Example: Uncomment the following line to enable debug logging for BlobStoreConnection.java. -->
+
+    <!--<logger name="com.ibm.icstore.modules.encryption" level="DEBUG"/>-->
+    <!--<logger name="com.ibm.icstore.keymanager" level="DEBUG"/>-->
+
+</configuration>

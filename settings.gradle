@@ -1,0 +1,4 @@
+rootProject.name = 'vicos'
+include 'vicos-server'
+include 'vicos-core'
+include 'vicos-client-cli'

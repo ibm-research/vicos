@@ -1,0 +1,37 @@
+.gradle
+local.properties
+.idea
+.DS_Store
+build/
+*.iml
+*.iws
+logs
+*.log
+venv/
+output/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Cache of project
+.gradletasknamecache
+
+# # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
+# gradle/wrapper/gradle-wrapper.properties
+
+# Ignore gradlewrapper
+gradlew
+gradlew.bat
+gradle/wrapper/
+
+# Output from proto buffer
+vicos-core/src/main/java/com/ibm/vicos/common/ADS.java
+vicos-core/src/main/java/com/ibm/vicos/common/Messages.java
+vicos-core/src/main/java/com/ibm/vicos/common/Metadata.java
+vicos-core/src/main/java/com/ibm/vicos/common/Operations.java
+
+# Output from auto-value
+vicos-core/src/auto-value

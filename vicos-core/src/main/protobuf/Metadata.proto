@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+option java_package = "com.ibm.vicos.common";
+
+message IntegrityMetadata {
+    string nonce = 1;
+    bytes hashValue = 2;
+}

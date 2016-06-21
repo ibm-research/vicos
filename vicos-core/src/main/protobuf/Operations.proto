@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+option java_package = "com.ibm.vicos.common";
+
+enum OpCode {
+    PUT = 0;
+    GET = 1;
+    DELETE = 2;
+    LIST = 3;
+    INIT = 4;
+}
+
+enum Status {
+    UNKNOWN = 0;
+    SUCCESS = 1;
+    ABORT = 2;
+}
+
+message Operation {
+    OpCode opCode = 1;
+    string key = 2;
+    string value = 3;
+    string clientId = 4;
+    uint64 sequenceNumber = 5;
+    Status status = 6;
+    string signature = 7;
+}
+
+enum ResultType {
+    OP_SUCCESS = 0;
+    KEY_NOT_FOUND  = 1;
+    INTEGRITY_VIOLATION = 2;
+}
+
+message Result {
+    OpCode opCode = 1;
+    ResultType resultType = 2;
+    Status status = 3;
+    repeated string values = 4;
+}

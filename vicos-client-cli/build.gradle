@@ -1,0 +1,33 @@
+apply plugin: 'application'
+
+mainClassName = "org.springframework.shell.Bootstrap"
+
+defaultTasks 'installApp'
+
+repositories {
+    maven { url 'http://repo.springsource.org/libs-release' }
+    maven { url 'https://repository.apache.org/content/repositories/snapshots' }
+}
+
+dependencies {
+    compile project(':vicos-core')
+    compile('org.springframework.shell:spring-shell:1.1.0.RELEASE') {
+        exclude group: 'commons-logging'
+    }
+    compile('org.slf4j:jcl-over-slf4j:1.7.14')
+    compile 'org.apache.jclouds.api:swift:2.0.0-SNAPSHOT'
+}
+
+run {
+    standardInput = System.in
+}
+
+applicationDefaultJvmArgs = ["-Dlogback.configurationFile=MY_APP_HOME/conf/logback.xml",
+                             "-Dconfig.file=MY_APP_HOME/conf/client.conf"]
+
+startScripts {
+    doLast {
+        unixScript.text = unixScript.text.replace('MY_APP_HOME', '\$APP_HOME')
+        windowsScript.text = windowsScript.text.replace('MY_APP_HOME', '%~dp0..')
+    }
+}
