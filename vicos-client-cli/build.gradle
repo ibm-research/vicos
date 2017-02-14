@@ -15,7 +15,7 @@ dependencies {
         exclude group: 'commons-logging'
     }
     compile('org.slf4j:jcl-over-slf4j:1.7.14')
-    compile 'org.apache.jclouds.api:swift:2.0.0-SNAPSHOT'
+    compile 'org.apache.jclouds.api:swift:1.9.3'
 }
 
 run {
